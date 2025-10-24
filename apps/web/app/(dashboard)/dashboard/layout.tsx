@@ -1,8 +1,27 @@
-import SidebarLink from "@/components/SidebarLink";  // ✅ default import
+import SidebarLink from "@/components/SidebarLink";
 import ThemeToggle from "@/components/ThemeToggle";
 import { Button } from "@repo/ui";
+import { ProfileMenu } from "@repo/ui";      // ✅ make sure it's exported in packages/ui/src/index.ts
+import { connectDB, UserModel } from "@repo/db";
+import { getSessionUser } from "@/lib/auth";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  // fetch user for avatar in topbar
+  const u = await getSessionUser();
+  let userName = "User";
+  let userEmail = "user@example.com";
+  let userImage = "";
+
+  if (u) {
+    await connectDB();
+    const doc = await UserModel.findById(u.uid).select("name email image").lean<{ name: string; email: string; image?: string } | null>();
+    if (doc) {
+      userName = doc.name;
+      userEmail = doc.email;
+      userImage = doc.image || "";
+    }
+  }
+
   return (
     <div className="min-h-screen flex">
       <aside className="hidden md:flex w-64 flex-col border-r border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-black/30 backdrop-blur">
@@ -11,14 +30,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             PracSphere
           </h1>
         </div>
-
         <nav className="flex-1 p-4 space-y-1">
           <SidebarLink href="/dashboard">Dashboard</SidebarLink>
           <SidebarLink href="/dashboard/tasks">Tasks</SidebarLink>
           <SidebarLink href="/dashboard/analytics">Analytics</SidebarLink>
           <SidebarLink href="/dashboard/profile">Profile</SidebarLink>
         </nav>
-
         <div className="p-4 border-t border-gray-200 dark:border-gray-800 flex items-center justify-between">
           <ThemeToggle />
           <form action="/api/auth/logout" method="POST">
@@ -36,9 +53,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </h2>
           <div className="flex items-center gap-3">
             <ThemeToggle />
-            <form action="/api/auth/logout" method="POST">
-              <Button>Logout</Button>
-            </form>
+            {/* ✅ Now shows uploaded image */}
+            <ProfileMenu name={userName} email={userEmail} image={userImage} />
           </div>
         </header>
 

@@ -1,6 +1,6 @@
-# ----------------------------
+# =====================================================
 # OS & Editor Files
-# ----------------------------
+# =====================================================
 .DS_Store
 Thumbs.db
 *.log
@@ -12,106 +12,114 @@ Thumbs.db
 .idea/
 .vscode/
 *.iml
+.history/
+.project
+.settings/
+*.code-workspace
 
-# ----------------------------
+# =====================================================
 # Node / Package Managers
-# ----------------------------
+# =====================================================
 node_modules/
 .pnpm-store/
 .npm/
 .nvm/
 yarn.lock
 package-lock.json
+pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
 
-# ----------------------------
+# =====================================================
 # TurboRepo / Monorepo
-# ----------------------------
+# =====================================================
 .turbo/
+turbo.json
+turbo-run.log
 dist/
 build/
 out/
-.next/
 .cache/
 .eslintcache
 coverage/
 *.tsbuildinfo
+tsconfig.tsbuildinfo
 
-# ----------------------------
-# Environment & Config
-# ----------------------------
+# =====================================================
+# Environment & Config Files
+# =====================================================
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 .env.example
+.env.*.backup
 
-# ----------------------------
-# OS-Specific
-# ----------------------------
-*.log
-*.pid
-*.seed
-*.pid.lock
-
-# ----------------------------
-# Next.js
-# ----------------------------
+# =====================================================
+# Next.js Specific
+# =====================================================
 .next/
 .next-static/
-.vercel/
-.vercel_build_output/
 .next/cache/
-server/
-server.js
 .next/server/
 .next/output/
+.next/trace
+.next/trace-manifest.json
+.next/server/chunks/
+.next/server/app/
+.vercel/
+.vercel_build_output/
+server/
+server.js
 public/_next/
 build-manifest.json
 react-loadable-manifest.json
 
-# ----------------------------
-# TypeScript
-# ----------------------------
-*.tsbuildinfo
-tsconfig.tsbuildinfo
-
-# ----------------------------
-# Testing & Coverage
-# ----------------------------
-coverage/
-*.lcov
-jest-cache/
-jest-results.json
-test-output/
-
-# ----------------------------
-# Build Output for Packages
-# ----------------------------
-packages/*/dist/
+# =====================================================
+# Build Outputs (Apps & Packages)
+# =====================================================
 apps/*/dist/
 apps/*/.next/
 apps/*/out/
 apps/*/.vercel/
 apps/*/build/
 apps/*/.cache/
+packages/*/dist/
+packages/*/.cache/
+packages/*/build/
 
-# ----------------------------
-# Temporary files
-# ----------------------------
+# =====================================================
+# Temporary / Runtime Files
+# =====================================================
 tmp/
 temp/
 logs/
-npm-debug.log*
-pnpm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-debug.log*
-lerna-debug.log*
+pids/
+*.pid
+*.pid.lock
+*.seed
+*.tsbuildinfo
+*.seed.lock
+*.tmp
+*.log.*
 
-# ----------------------------
+# =====================================================
+# Testing & Coverage
+# =====================================================
+coverage/
+*.lcov
+jest-cache/
+jest-results.json
+test-output/
+
+# =====================================================
 # Local Databases / Runtime Data
-# ----------------------------
+# =====================================================
 *.sqlite
 *.db
 *.db-journal
@@ -119,45 +127,48 @@ dump.rdb
 *.pem
 *.crt
 *.key
+*.cert
+*.csr
 
-# ----------------------------
-# Other
-# ----------------------------
+# =====================================================
+# Sass / Webpack / Cache Loaders
+# =====================================================
 .sass-cache/
 .cache-loader/
-*.lock
-*.tgz
+
+# =====================================================
+# Python Bytecode (if tools use Python)
+# =====================================================
 __pycache__/
 *.pyc
 
-# ----------------------------
-# JetBrains & VS Code
-# ----------------------------
-.idea/
-.vscode/
-.history/
-.project
-.settings/
-*.code-workspace
-
-# ----------------------------
-# TurboRepo Artifacts
-# ----------------------------
+# =====================================================
+# TurboRepo / PM2 / Server Logs
+# =====================================================
 .turbo/
-turbo.json
-turbo-run.log
-
-# ----------------------------
-# PM2 / Server Logs
-# ----------------------------
+turbo.json.lock
 pids/
 *.pid
+*.pid.lock
 *.seed
 *.pid.lock
 
-# ----------------------------
-# Custom Excludes
-# ----------------------------
+# =====================================================
+# Custom / User Uploads
+# =====================================================
 public/uploads/
 public/temp/
 public/images/tmp/
+public/profile_pics/
+uploads/
+temp_uploads/
+cache_uploads/
+
+# =====================================================
+# Misc / Backup
+# =====================================================
+*.tgz
+*.lock
+*.bak
+*.old
+*.orig
