@@ -1,40 +1,54 @@
-import { NextRequest, NextResponse } from "next/server";
+// apps/web/app/api/tasks/[id]/route.ts
+import { NextResponse } from "next/server";
 import { connectDB, TaskModel } from "@repo/db";
 import { getSessionUser } from "@/lib/auth";
-import { isValidObjectId } from "mongoose";
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
-  try {
-    const user = await getSessionUser();
-    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    const { id } = params;
-    if (!isValidObjectId(id)) return NextResponse.json({ error: "Invalid id" }, { status: 400 });
+type Params = { id: string };
 
-    const patch = await req.json().catch(() => ({}));
-    await connectDB();
-    const updated = await TaskModel.findOneAndUpdate(
-      { _id: id, userId: user.uid },
-      patch,
-      { new: true }
-    );
-    if (!updated) return NextResponse.json({ error: "Not found" }, { status: 404 });
-    return NextResponse.json(updated);
-  } catch {
-    return NextResponse.json({ error: "Failed" }, { status: 500 });
-  }
+export async function GET(
+  _req: Request,
+  { params }: { params: Promise<Params> }
+) {
+  const { id } = await params;
+  await connectDB();
+  const u = await getSessionUser();
+  if (!u) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const task = await TaskModel.findOne({ _id: id, userId: u.uid }).lean();
+  if (!task) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  return NextResponse.json({ task });
 }
 
-export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
-  try {
-    const user = await getSessionUser();
-    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    const { id } = params;
-    if (!isValidObjectId(id)) return NextResponse.json({ error: "Invalid id" }, { status: 400 });
+export async function PATCH(
+  req: Request,
+  { params }: { params: Promise<Params> }
+) {
+  const { id } = await params;
+  await connectDB();
+  const u = await getSessionUser();
+  if (!u) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    await connectDB();
-    await TaskModel.deleteOne({ _id: id, userId: user.uid });
-    return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: "Failed" }, { status: 500 });
-  }
+  const body = await req.json();
+  const updated = await TaskModel.findOneAndUpdate(
+    { _id: id, userId: u.uid },
+    body,
+    { new: true }
+  ).lean();
+
+  if (!updated) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  return NextResponse.json({ task: updated });
+}
+
+export async function DELETE(
+  _req: Request,
+  { params }: { params: Promise<Params> }
+) {
+  const { id } = await params;
+  await connectDB();
+  const u = await getSessionUser();
+  if (!u) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const deleted = await TaskModel.findOneAndDelete({ _id: id, userId: u.uid }).lean();
+  if (!deleted) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  return NextResponse.json({ ok: true });
 }

@@ -37,7 +37,7 @@ yarn.lock
 # TurboRepo / Monorepo
 # =====================================================
 .turbo/
-turbo.json
+
 turbo-run.log
 turbo.json.lock
 dist/

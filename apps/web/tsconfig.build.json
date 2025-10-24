@@ -1,8 +1,7 @@
 {
-  "extends": "./tsconfig.build.json",
+  "extends": "../../packages/config/tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "ignoreDeprecations": "6.0", // ← change to 5.0 OR remove this line
     "paths": {
       "@/*": [
         "./*"
