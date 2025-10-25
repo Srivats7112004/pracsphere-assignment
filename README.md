@@ -159,5 +159,4 @@ A sample `.env.example` is included for guidance.
 ---
 
 
-It will render **perfectly formatted** with all emojis, syntax highlighting, and tables aligned.
-```
+
